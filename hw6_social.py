@@ -93,7 +93,7 @@ import re
 def findHashtags(message):
     rx=re.compile('\#\w+|endChars\$')
     return (rx.findall(message))
-#print(findHashtags("I'm waitlisted for everything #registration.."))
+#print(findHashtags("Not sure what to take #110#112"))
 
 '''
 getRegionFromState(stateDf, state)
