@@ -5,6 +5,7 @@ Roll Number:
 """
 
 from os import name
+from pandas.core.arrays.categorical import contains
 from pandas.io.parsers import read_csv
 import hw6_social_tests as test
 
@@ -88,9 +89,11 @@ findHashtags(message)
 Parameters: str
 Returns: list of strs
 '''
+import re
 def findHashtags(message):
-    return
-
+    rx=re.compile('\#\w+|endChars\$')
+    return (rx.findall(message))
+#print(findHashtags("I'm waitlisted for everything #registration.."))
 
 '''
 getRegionFromState(stateDf, state)
@@ -290,9 +293,7 @@ if __name__ == "__main__":
     # test.week1Tests()
     # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     # test.runWeek1()
-    test.testParseName()
-    test.testParsePosition()
-    test.testParseState()
+    test.testFindHashtags()
     ## Uncomment these for Week 2 ##
     """print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
     test.week2Tests()
