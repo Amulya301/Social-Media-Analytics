@@ -206,7 +206,15 @@ Parameters: dataframe ; str
 Returns: dict mapping strs to (dicts mapping strs to ints)
 '''
 def getDataForRegion(data, colName):
-    return
+    outerdict = {}
+    for index,row in data.iterrows():
+        if row['region'] not in outerdict:
+            outerdict[row['region']] = {}
+        if row[colName] not in outerdict[row['region']]:
+            outerdict[row['region']][row[colName]] = 0
+        outerdict[row['region']][row[colName]] +=1
+    return outerdict
+
 
 
 '''
@@ -356,4 +364,4 @@ if __name__ == "__main__":
     stateDf = makeDataFrame("data/statemappings.csv")
     addColumns(df, stateDf)
     addSentimentColumn(df)
-    test.testGetDataCountByState(df)
+    test.testGetDataForRegion(df)
