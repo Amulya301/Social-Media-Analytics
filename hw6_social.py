@@ -4,6 +4,9 @@ Name:
 Roll Number:
 """
 
+from os import name
+from pandas.core.arrays.categorical import contains
+from pandas.io.parsers import read_csv
 import hw6_social_tests as test
 
 project = "Social" # don't edit this
@@ -25,7 +28,8 @@ Parameters: str
 Returns: dataframe
 '''
 def makeDataFrame(filename):
-    return
+    df = pd.read_csv(filename)
+    return df
 
 
 '''
@@ -35,8 +39,14 @@ Parameters: str
 Returns: str
 '''
 def parseName(fromString):
-    return
-
+    for line in fromString.split("\n"):
+        strt = line.find("From: ") + \
+            len("From: ")
+        line = line[strt:]
+        end = line.find("(")
+        line = line[:end]
+        line = line.strip()
+    return line
 
 '''
 parsePosition(fromString)
@@ -45,7 +55,14 @@ Parameters: str
 Returns: str
 '''
 def parsePosition(fromString):
-    return
+    for line in fromString.split("\n"):
+        strt = line.find(" (") + \
+            len(" (")
+        line = line[strt:]
+        end = line.find(" from")
+        line = line[:end]
+        line = line.strip()
+    return line
 
 
 '''
@@ -55,7 +72,15 @@ Parameters: str
 Returns: str
 '''
 def parseState(fromString):
-    return
+    for line in fromString.split("\n"):
+        strt = line.find(" from ") + \
+            len(" from ")
+        line = line[strt:]
+        end = line.find(")")
+        line = line[:end]
+        line = line.strip()
+    return line
+
 
 
 '''
@@ -64,9 +89,10 @@ findHashtags(message)
 Parameters: str
 Returns: list of strs
 '''
+import re
 def findHashtags(message):
-    return
-
+    return (re.findall(r'\#\w+|endChars\$',message))
+#print(findHashtags("Not sure what to take #110#112"))
 
 '''
 getRegionFromState(stateDf, state)
@@ -262,11 +288,11 @@ def scatterPlot(xValues, yValues, labels, title):
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
-    test.week1Tests()
-    print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
-    test.runWeek1()
-
+    # print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
+    # test.week1Tests()
+    # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
+    # test.runWeek1()
+    test.testFindHashtags()
     ## Uncomment these for Week 2 ##
     """print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
     test.week2Tests()
