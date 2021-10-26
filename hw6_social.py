@@ -1,7 +1,7 @@
 """
 Social Media Analytics Project
-Name:
-Roll Number:
+Name: V.Amulya
+Roll Number: 2021501007
 """
 
 from os import name, stat
@@ -172,7 +172,7 @@ def addSentimentColumn(data):
         message = data['text'].iloc[index]
         txt = findSentiment(classifier,message)
         sentiments.append(txt)
-    data['sentiment'] = sentiments
+    data["sentiment"] = sentiments
     return
 
 
@@ -184,7 +184,19 @@ Parameters: dataframe ; str ; str
 Returns: dict mapping strs to ints
 '''
 def getDataCountByState(data, colName, dataToCount):
-    return
+    dict1 = {}
+    if len(colName) !=0 and len(dataToCount) !=0 :
+        for index, row in data.iterrows():
+            if row[colName] == dataToCount:
+                if row["state"] not in dict1:
+                    dict1[row["state"]] = 0
+                dict1[row["state"]] +=1
+    elif colName== "" or dataToCount == "":
+        for index, row in data.iterrows():
+            if row["state"] not in dict1:
+                dict1[row["state"]] = 0
+            dict1[row["state"]] +=1
+    return dict1
 
 
 '''
@@ -333,11 +345,15 @@ if __name__ == "__main__":
     # test.runWeek1()
     ## Uncomment these for Week 2 ##
     """print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
-    test.week2Tests()
-    print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
-    test.runWeek2()"""
+        test.week2Tests()
+        print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
+        test.runWeek2()"""
 
     ## Uncomment these for Week 3 ##
     """print("\n" + "#"*15 + " WEEK 3 OUTPUT " + "#" * 15 + "\n")
     test.runWeek3()"""
-    test.testAddSentimentColumn()
+    df = makeDataFrame("data/politicaldata.csv")
+    stateDf = makeDataFrame("data/statemappings.csv")
+    addColumns(df, stateDf)
+    addSentimentColumn(df)
+    test.testGetDataCountByState(df)
