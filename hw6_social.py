@@ -4,6 +4,9 @@ Name:
 Roll Number:
 """
 
+from os import name, stat
+from pandas.core.arrays.categorical import contains
+from pandas.io.parsers import read_csv
 import hw6_social_tests as test
 
 project = "Social" # don't edit this
@@ -25,7 +28,8 @@ Parameters: str
 Returns: dataframe
 '''
 def makeDataFrame(filename):
-    return
+    df = pd.read_csv(filename)
+    return df
 
 
 '''
@@ -35,8 +39,14 @@ Parameters: str
 Returns: str
 '''
 def parseName(fromString):
-    return
-
+    for line in fromString.split("\n"):
+        strt = line.find("From: ") + \
+            len("From: ")
+        line = line[strt:]
+        end = line.find("(")
+        line = line[:end]
+        line = line.strip()
+    return line
 
 '''
 parsePosition(fromString)
@@ -45,7 +55,14 @@ Parameters: str
 Returns: str
 '''
 def parsePosition(fromString):
-    return
+    for line in fromString.split("\n"):
+        strt = line.find(" (") + \
+            len(" (")
+        line = line[strt:]
+        end = line.find(" from")
+        line = line[:end]
+        line = line.strip()
+    return line
 
 
 '''
@@ -55,7 +72,15 @@ Parameters: str
 Returns: str
 '''
 def parseState(fromString):
-    return
+    for line in fromString.split("\n"):
+        strt = line.find(" from ") + \
+            len(" from ")
+        line = line[strt:]
+        end = line.find(")")
+        line = line[:end]
+        line = line.strip()
+    return line
+
 
 
 '''
@@ -64,9 +89,10 @@ findHashtags(message)
 Parameters: str
 Returns: list of strs
 '''
+import re
 def findHashtags(message):
-    return
-
+    return (re.findall(r'\#\w+|endChars\$',message))
+#print(findHashtags("I'm waitlisted for everything #registration.."))
 
 '''
 getRegionFromState(stateDf, state)
@@ -75,7 +101,9 @@ Parameters: dataframe ; str
 Returns: str
 '''
 def getRegionFromState(stateDf, state):
-    return
+    row = stateDf.loc[stateDf['state'] == state,'region']
+    return (row.values[0])
+
 
 
 '''
@@ -85,7 +113,31 @@ Parameters: dataframe ; dataframe
 Returns: None
 '''
 def addColumns(data, stateDf):
-    return
+    names = []
+    positions = []
+    states = []
+    regions = []
+    hashtags = []
+    for index,row in data.iterrows():
+        colvalue = data['label'].iloc[index]
+        name = parseName(colvalue)
+        pos = parsePosition(colvalue)
+        state = parseState(colvalue)
+        region = getRegionFromState(stateDf, state)
+        txtvalue = data['text'].iloc[index]
+        hashtag = findHashtags(txtvalue)
+        names.append(name)
+        positions.append(pos)
+        states.append(state)
+        regions.append(region)
+        hashtags.append(hashtag)
+    data['name'] = names
+    data['position'] = positions
+    data['state'] = states
+    data['region'] = regions
+    data['hashtags'] = hashtags
+
+    return None
 
 
 ### PART 2 ###
@@ -266,7 +318,7 @@ if __name__ == "__main__":
     test.week1Tests()
     print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     test.runWeek1()
-
+    # test.testAddColumns()
     ## Uncomment these for Week 2 ##
     """print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
     test.week2Tests()
