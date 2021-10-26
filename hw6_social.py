@@ -91,8 +91,7 @@ Returns: list of strs
 '''
 import re
 def findHashtags(message):
-    rx=re.compile('\#\w+|endChars\$')
-    return (rx.findall(message))
+    return (re.findall(r'\#\w+|endChars\$',message))
 #print(findHashtags("Not sure what to take #110#112"))
 
 '''
