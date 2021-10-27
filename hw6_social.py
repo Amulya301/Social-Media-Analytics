@@ -91,9 +91,20 @@ Returns: list of strs
 '''
 import re
 def findHashtags(message):
-    #rx=re.compile('\#\w+|endChars\$')
-    return (re.findall(r'\#\w+|endChars\$',message))
-#print(findHashtags("I'm waitlisted for everything #registration.."))
+    lst1 = message.split('#')
+    lst2=[]
+    empstr=""
+    for i in range(1,len(lst1)):
+        for j in lst1[i]:
+            if j in endChars:
+                break
+            else:
+                empstr = empstr + j
+        empstr = '#'+empstr 
+        lst2.append(empstr)
+        empstr =""
+    return lst2
+print(findHashtags("I'm waitlisted for everything #regis@tration.."))
 
 '''
 getRegionFromState(stateDf, state)
@@ -137,6 +148,7 @@ def addColumns(data, stateDf):
     data['state'] = states
     data['region'] = regions
     data['hashtags'] = hashtags
+    print(len(data["hashtags"]))
 
     return None
 
@@ -185,17 +197,20 @@ Returns: dict mapping strs to ints
 '''
 def getDataCountByState(data, colName, dataToCount):
     dict1 = {}
-    if len(colName) !=0 and len(dataToCount) !=0 :
-        for index, row in data.iterrows():
-            if row[colName] == dataToCount:
-                if row["state"] not in dict1:
-                    dict1[row["state"]] = 0
-                dict1[row["state"]] +=1
-    elif colName== "" or dataToCount == "":
-        for index, row in data.iterrows():
-            if row["state"] not in dict1:
-                dict1[row["state"]] = 0
-            dict1[row["state"]] +=1
+    for index, row in data.iterrows():
+        if len(colName) !=0 and len(dataToCount) !=0 :
+            if (row[colName] == dataToCount) :
+                if (row["state"] in dict1) :
+                    dict1[row["state"]] += 1
+                else:
+                #print(row["state"])
+                    dict1[row["state"]] =1
+        else:
+            if row["state"] in dict1:
+                dict1[row["state"]] += 1
+            else:
+                dict1[row["state"]] =1
+    #print(len(dict1))
     return dict1
 
 
@@ -211,8 +226,9 @@ def getDataForRegion(data, colName):
         if row['region'] not in outerdict:
             outerdict[row['region']] = {}
         if row[colName] not in outerdict[row['region']]:
-            outerdict[row['region']][row[colName]] = 0
-        outerdict[row['region']][row[colName]] +=1
+            outerdict[row['region']][row[colName]] = 1
+        else:
+            outerdict[row['region']][row[colName]] +=1
     return outerdict
 
 '''
@@ -226,7 +242,7 @@ def getHashtagRates(data):
     for i in data["hashtags"]:
         for tag in i:
             if tag not in dict1:
-                dict1[tag] = 0
+                dict1[tag] = 1
             else:
                 dict1[tag] +=1
     print(len(dict1))
@@ -245,10 +261,10 @@ def mostCommonHashtags(hashtags, count):
     mostCommon = dict(Counter(hashtags).most_common(count))
     return mostCommon
 
-df = makeDataFrame("data/politicaldata.csv")
-stateDf = makeDataFrame("data/statemappings.csv")
-addColumns(df, stateDf)
-addSentimentColumn(df)
+# df = makeDataFrame("data/politicaldata.csv")
+# stateDf = makeDataFrame("data/statemappings.csv")
+# addColumns(df, stateDf)
+# addSentimentColumn(df)
 #print(mostCommonHashtags(getHashtagRates(df),6))
 
 
@@ -258,8 +274,26 @@ getHashtagSentiment(data, hashtag)
 Parameters: dataframe ; str
 Returns: float
 '''
+import statistics
 def getHashtagSentiment(data, hashtag):
-    return
+    count = 0
+    lst1 = []
+    for index, row  in data.iterrows():
+        if hashtag in row['text']:
+            count+=1
+            if row['sentiment'] == "positive" :
+                    lst1.append(1)
+            elif row['sentiment'] == "negative" :
+                    lst1.append(-1)
+            elif row['sentiment'] == "neutral" :
+                    lst1.append(0)     
+    
+    return sum(lst1) / count
+# df = makeDataFrame("data/politicaldata.csv")
+# stateDf = makeDataFrame("data/statemappings.csv")
+# addColumns(df, stateDf)
+# addSentimentColumn(df)
+# print(getHashtagSentiment(df,'#jobs'))
 
 
 ### PART 3 ###
@@ -367,16 +401,17 @@ if __name__ == "__main__":
     # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     # test.runWeek1()
     ## Uncomment these for Week 2 ##
-    """print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
-        test.week2Tests()
-        print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
-        test.runWeek2()"""
+    print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
+    test.week2Tests()
+    print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
+    test.runWeek2()
 
     ## Uncomment these for Week 3 ##
     """print("\n" + "#"*15 + " WEEK 3 OUTPUT " + "#" * 15 + "\n")
     test.runWeek3()"""
-    df = makeDataFrame("data/politicaldata.csv")
-    stateDf = makeDataFrame("data/statemappings.csv")
-    addColumns(df, stateDf)
-    addSentimentColumn(df)
-    test.testGetHashtagRates(df)
+    # df = makeDataFrame("data/politicaldata.csv")
+    # stateDf = makeDataFrame("data/statemappings.csv")
+    # addColumns(df, stateDf)
+    # addSentimentColumn(df)
+    # # test.testGetHashtagRates(df)
+    # print(len(getHashtagRates(df)))
