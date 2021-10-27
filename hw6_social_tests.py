@@ -164,11 +164,11 @@ def testGetDataForRegion(df):
 def testGetHashtagRates(df):
     print("Testing getHashtagRates()...", end="")
     d = getHashtagRates(df)
-    assert(len(d) == 1507)
+    assert(len(d) == 1526)
     assert(d["#TrainWreck"] == 8)
     assert(d["#jobs"] == 20)
     assert(d["#STEM"] == 5)
-    assert(d["#ObamaCare"] == 22)
+    assert(d["#ObamaCare"] == 20)
     print("... done!")
 
 def testMostCommonHashtags(df):

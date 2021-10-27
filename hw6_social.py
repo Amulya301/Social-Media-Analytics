@@ -223,11 +223,13 @@ Returns: dict mapping strs to ints
 '''
 def getHashtagRates(data):
     dict1 = {}
-    for index, row in data.iterrows():
-        for tag in range(len(row['hashtags'])):
-            if row['hashtags'][tag] not in dict1:
-                dict1[row['hashtags'][tag]] = 0
-            dict1[row['hashtags'][tag]] +=1
+    for i in data["hashtags"]:
+        for tag in i:
+            if tag not in dict1:
+                dict1[tag] = 0
+            else:
+                dict1[tag] +=1
+    print(len(dict1))
     return dict1
 
 
@@ -238,9 +240,16 @@ mostCommonHashtags(hashtags, count)
 Parameters: dict mapping strs to ints ; int
 Returns: dict mapping strs to ints
 '''
+from collections import Counter
 def mostCommonHashtags(hashtags, count):
-    
-    return
+    mostCommon = dict(Counter(hashtags).most_common(count))
+    return mostCommon
+
+df = makeDataFrame("data/politicaldata.csv")
+stateDf = makeDataFrame("data/statemappings.csv")
+addColumns(df, stateDf)
+addSentimentColumn(df)
+#print(mostCommonHashtags(getHashtagRates(df),6))
 
 
 '''
