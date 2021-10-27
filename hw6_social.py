@@ -329,7 +329,16 @@ graphTopNStates(stateCounts, stateFeatureCounts, n, title)
 Parameters: dict mapping strs to ints ; dict mapping strs to ints ; int ; str
 Returns: None
 '''
+import heapq
 def graphTopNStates(stateCounts, stateFeatureCounts, n, title):
+    featurerate = {}
+    topstates = {}
+    for i in stateFeatureCounts:
+        #print(stateFeatureCounts[i] / stateCounts[i])
+        featurerate[i] = (stateFeatureCounts[i] / stateCounts[i])
+    topstates = dict(Counter(featurerate).most_common(n))
+    graphStateCounts(topstates, "Top n Featured")
+
     return
 
 
