@@ -215,8 +215,6 @@ def getDataForRegion(data, colName):
         outerdict[row['region']][row[colName]] +=1
     return outerdict
 
-
-
 '''
 getHashtagRates(data)
 #5 [Check6-2]
@@ -224,7 +222,14 @@ Parameters: dataframe
 Returns: dict mapping strs to ints
 '''
 def getHashtagRates(data):
-    return
+    dict1 = {}
+    for index, row in data.iterrows():
+        for tag in range(len(row['hashtags'])):
+            if row['hashtags'][tag] not in dict1:
+                dict1[row['hashtags'][tag]] = 0
+            dict1[row['hashtags'][tag]] +=1
+    return dict1
+
 
 
 '''
@@ -234,6 +239,7 @@ Parameters: dict mapping strs to ints ; int
 Returns: dict mapping strs to ints
 '''
 def mostCommonHashtags(hashtags, count):
+    
     return
 
 
@@ -364,4 +370,4 @@ if __name__ == "__main__":
     stateDf = makeDataFrame("data/statemappings.csv")
     addColumns(df, stateDf)
     addSentimentColumn(df)
-    test.testGetDataForRegion(df)
+    test.testGetHashtagRates(df)
