@@ -92,7 +92,19 @@ Returns: list of strs
 import re
 def findHashtags(message):
     #rx=re.compile('\#\w+|endChars\$')
-    return (re.findall(r'\#\w+|endChars\$',message))
+    lst1 = message.split('#')
+    lst2=[]
+    empstr=""
+    for i in range(1,len(lst1)):
+        for j in lst1[i]:
+            if j in endChars:
+                break
+            else:
+                empstr = empstr + j
+        empstr = '#'+empstr 
+        lst2.append(empstr)
+        empstr =""
+    return lst2
 #print(findHashtags("I'm waitlisted for everything #registration.."))
 
 '''
