@@ -353,29 +353,16 @@ def graphRegionComparison(regionDicts, title):
     featurelst = []
     regionlst = []
     regionvalue = []
-    #templist = []
     for i in regionDicts:
-        for j in regionDicts[i]:
+        templist = []
+        x = regionDicts[i] #feature
+        for j in x:
             if j not in featurelst:
                 featurelst.append(j)
+            templist.append(x[j])
+        regionvalue.append(templist)  
         regionlst.append(i)
-    for i in regionDicts.keys():
-        templist = []
-        for k in featurelst:
-            for x in regionDicts[i].keys():
-                if k in x:
-                    templist.append(regionDicts[i][k])
-                else:
-                    templist.append(0)
-                
-        
-    regionvalue.append(templist)
-    # print(regionvalue)
-    regionfeature = list(chain.from_iterable(regionvalue))
-    # #print(regionfeature)
-    sideBySideBarPlots(featurelst, regionlst, regionfeature, "Region Comparison")
-    # print("region feature", len(regionfeature))
-    # print("region value", len(regionlst))
+    sideBySideBarPlots(featurelst, regionlst, regionvalue, title)
     return
 
 
