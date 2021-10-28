@@ -350,32 +350,31 @@ Returns: None
 '''
 from itertools import chain
 def graphRegionComparison(regionDicts, title):
-    featurelst = []
-    regionlst = []
-    regionvalue = []
-    #templist = []
-    for i in regionDicts:
-        for j in regionDicts[i]:
-            if j not in featurelst:
-                featurelst.append(j)
-        regionlst.append(i)
-    for i in regionDicts.keys():
-        templist = []
-        for k in featurelst:
-            for x in regionDicts[i].keys():
-                if k in x:
-                    templist.append(regionDicts[i][k])
-                else:
-                    templist.append(0)
+    # featurelst = []
+    # regionlst = []
+    # regionvalue = []
+    # #templist = []
+    # for i in regionDicts:
+    #     for j in regionDicts[i]:
+    #         if j not in featurelst:
+    #             featurelst.append(j)
+    #     regionlst.append(i)
+    # for i in regionDicts.keys():
+    #     templist = []
+    #     for k in featurelst:
+    #         for x in regionDicts[i].keys():
+    #             if k in x:
+    #                 templist.append(regionDicts[i][k])
+    #             else:
+    #                 templist.append(0)
                 
         
-    # regionvalue.append(templist)
-    # print(regionvalue)
-    # regionfeature = list(chain.from_iterable(regionvalue))
-    # #print(regionfeature)
-    # sideBySideBarPlots(featurelst, regionlst, regionfeature, "Region Comparison")
-    # print("region feature", len(regionfeature))
-    # print("region value", len(regionlst))
+    # # regionvalue.append(templist)
+    # # print(regionvalue)
+    # # regionfeature = list(chain.from_iterable(regionvalue))
+    # # sideBySideBarPlots(featurelst, regionlst, regionfeature, "Region Comparison")
+    # # print("region feature", len(regionfeature))
+    # # print("region value", len(regionlst))
     return
 
 
@@ -386,6 +385,17 @@ Parameters: dataframe
 Returns: None
 '''
 def graphHashtagSentimentByFrequency(data):
+    dict1 = getHashtagRates(data)
+    mostcommon = mostCommonHashtags(dict1, 50)
+    hashtaglst = []
+    freqlst = []
+    sentimentlst = []
+    for i in mostcommon:
+        hashtaglst.append(i)
+        freqlst.append(mostcommon[i])
+        sentimentlst.append(getHashtagSentiment(data, i))
+    
+    scatterPlot(freqlst, sentimentlst, hashtaglst, "Hahstags Frequency")
     return
 
 
