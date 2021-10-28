@@ -369,11 +369,11 @@ def graphRegionComparison(regionDicts, title):
                     templist.append(0)
                 
         
-    # regionvalue.append(templist)
+    regionvalue.append(templist)
     # print(regionvalue)
-    # regionfeature = list(chain.from_iterable(regionvalue))
+    regionfeature = list(chain.from_iterable(regionvalue))
     # #print(regionfeature)
-    # sideBySideBarPlots(featurelst, regionlst, regionfeature, "Region Comparison")
+    sideBySideBarPlots(featurelst, regionlst, regionfeature, "Region Comparison")
     # print("region feature", len(regionfeature))
     # print("region value", len(regionlst))
     return
