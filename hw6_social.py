@@ -401,14 +401,16 @@ if __name__ == "__main__":
     # print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     # test.runWeek1()
     ## Uncomment these for Week 2 ##
-    print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
-    test.week2Tests()
-    print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
-    test.runWeek2()
+    # print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
+    # test.week2Tests()
+    # print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
+    # test.runWeek2()
 
     ## Uncomment these for Week 3 ##
-    """print("\n" + "#"*15 + " WEEK 3 OUTPUT " + "#" * 15 + "\n")
-    test.runWeek3()"""
+    print("\n" + "#"*15 + " WEEK 3 OUTPUT " + "#" * 15 + "\n")
+    test.runWeek3()
+    sideBySideBarPlots(['A','B','C','D'], ['a','b','c','d'], [1,2,3,4], "sample")
+    scatterPlot(['a','b','c','d'], [0.1,0.2,0.3,-0.4],['A','B','C','D'], "Sactter sample")
     # df = makeDataFrame("data/politicaldata.csv")
     # stateDf = makeDataFrame("data/statemappings.csv")
     # addColumns(df, stateDf)
