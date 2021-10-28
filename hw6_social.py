@@ -348,7 +348,7 @@ graphRegionComparison(regionDicts, title)
 Parameters: dict mapping strs to (dicts mapping strs to ints) ; str
 Returns: None
 '''
-from itertools import chain
+
 def graphRegionComparison(regionDicts, title):
     featurelst = []
     regionlst = []
